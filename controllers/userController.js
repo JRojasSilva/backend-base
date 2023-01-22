@@ -14,46 +14,12 @@ const getUsuarios = async(req, res = response ) => {
     })
 }
 
-const crearUsuario = async(req, res= response ) => {
+const crearUsuario = (req, res= response ) => {
 
-    const { email, password } = req.body;
-
-    try {
-        let usuario = await Usuario.findOne({ email });
-
-        if ( usuario ) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'El usuario ya existe'
-            });
-        }
-
-        usuario = new Usuario( req.body );
-    
-        // Encriptar contraseña
-        const salt = bcrypt.genSaltSync();
-        usuario.password = bcrypt.hashSync( password, salt );
-
-
-        await usuario.save();
-
-        // Generar JWT
-        const token = await generarJWT( usuario.id, usuario.nombre );
-    
-        res.status(201).json({
-            ok: true,
-            uid: usuario.id,
-            nombre: usuario.nombre,
-            token
-        })
-        
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            ok: false,
-            msg: 'Por favor hable con el administrador'
-        });
-    }
+    res.json({
+        ok: true,
+        msg: 'crearUsuario'
+    })
 }
 
 const actualizarUsuario = (req, res= response ) => {
